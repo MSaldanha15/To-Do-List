@@ -1,21 +1,54 @@
-<!DOCTYPE html>
-
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Atividade</title> 
-    </head>
-    <body>
-        <div class ="ToDo">
-            <h1> Atividade - To Do List</h1>
-            <input id="newTask" type="text">
-            <Button onclick=CreateTask()>Adicionar</button>
-            
-            <div id="list"></div>
 
+    <body> 
+        <div id="app">
+            {{Assinatura}}
+            <br>
+            {{Titulo}}
+            <br>
+                <input type="text" v-model="ToDoAtual" placeholder="Digite aqui!">
+                <button v-on:click.prevent="Adicionar">Adicionar</button>
+                <ol>
+                    <li v-for="todo in ToDos" :key="todo.text" v-on:click="lista(todo)">
+                        <div>
+                            <input type="checkbox" :checked="todo.done">
+                                <label>
+                                    <del v-if="todo.done">
+                                        {{ todo.text }}
+                                    </del>
+                                    <span v-else>
+                                        {{ todo.text }}
+                                    </span>
+                                </label>
+                        </div>
+                    </li>
+                </ol>
         </div>
     </body>
-    
-    <script src="./Atividade.js"> </script>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+<script>
+new Vue({
+    el: "#app",
+    data: {
+        Titulo: "Atividade - To Do List:",
+        Assinatura: "Nome: Matheus Saldanha Coelho",
+        ToDoAtual: "",
+        ToDos: []
+    },
+    methods: {
+        Adicionar() {
+            this.ToDos.push({
+                text: this.ToDoAtual,
+                done: false
+            });
+            this.ToDoAtual = "";
+        },
+        lista(todo) {
+            todo.done = !todo.done;
+        }
+}});
+</script>
 
 </html>
